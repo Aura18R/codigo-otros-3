@@ -8,39 +8,26 @@ const productos = [
   {nombre: "Zapato rojo", tipo: "zapato", color: "rojo", img: "./zapato-rojo.jpg"}
 ]
 
-const li = document.getElementsByName("lista-de-productos")
-const $i = document.querySelector('.input');
+const lista = document.getElementById("lista-de-productos") //Traemos la lista
+const input = document.querySelector('input'); //Traemos el input
+const botonDeFiltro = document.querySelector("button"); //traemos el boton
 
-for (let i = 0; i < productos.length; i++) {
-  var d = document.createElement("div")
-  d.classList.add("producto")
+//Funcion que busca coincidencias de una cadena en las claves tipo y color
+const filtrado = (productos = [], texto) => {
+  return productos.filter(item => item.tipo.includes(texto) || item.color.includes(texto));
+} 
 
-  var ti = document.createElement("p")
-  ti.classList.add("titulo")
-  ti.textContent = productos[i].nombre
-  
-  var imagen = document.createElement("img");
-  imagen.setAttribute('src', productos[i].img);
-
-  d.appendChild(ti)
-  d.appendChild(imagen)
-
-  li.appendChild(d)
-}
-
-displayProductos(productos)
-const botonDeFiltro = document.querySelector("button");
-
-botonDeFiltro.onclick = function() {
-  while (li.firstChild) {
-    li.removeChild(li.firstChild);
+//Cuando se presiona el boton se ejecuta la siguiente funcion
+botonDeFiltro.onclick = function() { 
+  while (lista.firstChild) { //Si la lista tiene elementos los borra
+    lista.removeChild(lista.firstChild);
   }
 
-  const texto = $i.value;
-  console.log(texto);
-  const productosFiltrados = filtrado(productos, texto );
+  const texto = input.value; //Traemos el valor del input
+  console.log(texto); //Lo imprimimos en consola
+  const productosFiltrados = filtrado(productos, texto ); //Con la funcion filtro filtramos productos y guardamos esta sublista
 
-  for (let i = 0; i < productosFiltrados.length; i++) {
+  for (let i = 0; i < productosFiltrados.length; i++) { //iniciamos un for donde por cada elemento imprimira el nombre y la imagen con ayuda del dom
     var d = document.createElement("div")
     d.classList.add("producto")
   
@@ -54,10 +41,8 @@ botonDeFiltro.onclick = function() {
     d.appendChild(ti)
     d.appendChild(imagen)
   
-    li.appendChild(d)
+    lista.appendChild(d)
   }
 }
 
-const filtrado = (productos = [], texto) => {
-  return productos.filter(item => item.tipo.includes(texto) || item.color.includes(texto));
-}  
+ 
